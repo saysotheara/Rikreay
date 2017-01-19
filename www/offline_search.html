@@ -1,0 +1,64 @@
+
+<ons-modal var="modal">
+    <i class="fa fa-spinner fa-spin fa-pulse" style="font-size: 28px;"></i>
+    <br><br>
+    Please wait ...
+</ons-modal>
+
+    <ons-page id="radio-page" ng-controller="OfflineController_search" style="background: #28292a">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="center">
+                ស្វែងរកបទចម្រៀង
+            </div>
+            <div class="left">
+                <ons-toolbar-button ng-click="onProfileClick();">
+                    <ons-icon icon="navicon" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="right">
+                <ons-toolbar-button ng-click="onPlaylistClick();" disabled ng-if="!showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+                <ons-toolbar-button ng-click="onPlaylistClick();" ng-if="showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+        
+            <div style="text-align: center;">
+                <section class="toolbar-color music">
+                    <form ng-submit="onStartSearchClick();">
+                    <input type="search" class="search-input" placeholder="ស្វែងរកតាមចំណងជើង..." ng-model="searchText">
+                    </form>
+                </section>
+            </div>
+        
+            <ons-list ng-if="showNoItem && musics.length == 0">
+                <ons-list-item class="playlist-list">
+                    <div class="playlist-title" style="text-align: center; margin: 10px;">
+                        <img src="images/loading.gif" class="loading" style="width: 28px;" ng-if="isLoading" />
+                        <span ng-if="!isLoading">មិនមានលទ្ធផល - ស្វែងរកតាមចំណងជើង...</span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list" ng-if="musics.length > 0">
+                <ons-list-item modifier="tappable" class="playlist-list" ng-repeat="item in musics | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="playlist-title">
+                                &nbsp; {{ item.title }} &nbsp;<img src="images/bars.gif" ng-if="item.id===musicNow.id && player.playing"/>
+                            </div>
+                            <div class="playlist-desc">
+                                &nbsp; <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                &nbsp; <i class="fa fa-user-secret live-color" style="font-size: 10px;"></i> {{ item.artist }}
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        
+    </ons-page>
+    

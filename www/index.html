@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html ng-app="main">
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <title>Khmer ME - Music & Entertainment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/cloud.js"></script>
+    <script src="js/service.js"></script>
+    <script src="js/directive.js"></script>
+    
+    <script src="js/controller/controller.js"></script>
+    <script src="js/controller/main.js"></script>
+    <script src="js/controller/home.js"></script>
+    <script src="js/controller/mv.js"></script>
+    <script src="js/controller/music.js"></script>
+    <script src="js/controller/library.js"></script>
+    <script src="js/controller/playlist.js"></script>
+    <script src="js/controller/offline.js"></script>
+    
+    <script src="js/controller/menu/menu.js"></script>
+    <script src="js/controller/menu/detail.js"></script>
+
+    <script src="js/controller/menu/m_music.js"></script>
+    <script src="js/controller/menu/m_chart.js"></script>
+    <script src="js/controller/menu/m_download.js"></script>
+    <script src="js/controller/menu/m_playlist.js"></script>
+    <script src="js/controller/menu/m_history.js"></script>
+    <script src="js/controller/menu/m_artist.js"></script>
+    <script src="js/controller/menu/m_promote.js"></script>
+    <script src="js/controller/menu/m_live.js"></script>
+    <script src="js/controller/menu/m_sns.js"></script>
+    <script src="js/controller/menu/m_mv.js"></script>
+    <script src="js/controller/menu/m_search.js"></script>
+    <script src="js/controller/menu/m_profile.js"></script>
+    
+    <script src="js/module/angular-local-storage.js"></script>
+    <script src="js/module/angular-media-player.js"></script>
+    <script src="js/module/ng-cordova-oauth.min.js"></script>
+    
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/classify.css">
+    <link rel="stylesheet" href="css/news.css">
+    
+</head>
+<body>
+    <ons-sliding-menu var="app.slidingMenu" menu-page="menu.html" main-page="main.html" 
+        side="right" type="overlay" swipeable="no" max-slide-distance="100%">
+    </ons-sliding-menu>
+    
+    <ons-template id="popover.html" >
+        <ons-popover direction="up" cancelable="true">
+            <ons-list ng-controller="MoreController">
+                <ons-list-item modifier="tappable" class="list-popup" ng-click="onAlbumFilterClick(item.production)" ng-repeat="item in productions | filter: 'popup'">
+                    <ons-row>
+                        <ons-col width="30px">
+                            <img ng-src="{{productionPath}}/{{item.production}}.jpg" class="popup-thum"></img>
+                        </ons-col>
+                        <ons-col width="1px">
+                        </ons-col>
+                        <ons-col>
+                            <div class="popup-title">
+                                {{ item.production }}
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </ons-popover>
+    </ons-template>
+
+    <ons-template id="playlists_online.html">
+        <ons-dialog var="dialog" cancelable ng-controller="DialogPlaylistController" style="width: 70%; height: 45%; background: #28292a; border: 1px solid white;">
+            <ons-toolbar inline class="toolbar-color" fixed-style="">
+                <div class="center">
+                    Add to the Playlist..
+                </div>
+            </ons-toolbar>
+            <ons-scroller class="main-playlist" style="height: 100%;">
+                <ons-list>
+                    <ons-list-item modifier="tappable" class="dialog_playlist-list" ng-repeat="item in playlists_online" ng-click="onPlaylistSelect(item, $index);">
+                        <ons-row>
+                            <ons-col width="25px">
+                                <div class="dialog_playlist-num live-color">
+                                    {{ $index + 1 }}.
+                                </div>
+                            </ons-col>
+                            <ons-col width="5px">
+                            </ons-col>
+                            <ons-col>
+                                <div class="dialog_playlist-title">
+                                    {{ item.name }}
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item class="dialog_playlist-list">
+                    </ons-list-item>
+                </ons-list>
+            </ons-scroller>
+        </ons-dialog>
+    </ons-template>
+
+    <ons-template id="playlists_offline.html">
+        <ons-dialog var="dialog" cancelable ng-controller="DialogPlaylistController" style="width: 70%; height: 45%; background: #28292a; border: 1px solid white;">
+            <ons-toolbar inline class="toolbar-color" fixed-style="">
+                <div class="center">
+                    Add to Offline Playlist..
+                </div>
+            </ons-toolbar>
+            <ons-scroller class="main-playlist" style="height: 100%;">
+                <ons-list>
+                    <ons-list-item modifier="tappable" class="dialog_playlist-list" ng-repeat="item in playlists_offline" ng-click="onPlaylistSelect(item, $index);">
+                        <ons-row>
+                            <ons-col width="25px">
+                                <div class="dialog_playlist-num live-color">
+                                    {{ $index + 1 }}.
+                                </div>
+                            </ons-col>
+                            <ons-col width="5px">
+                            </ons-col>
+                            <ons-col>
+                                <div class="dialog_playlist-title">
+                                    {{ item.name }}
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item class="dialog_playlist-list">
+                    </ons-list-item>
+                </ons-list>
+            </ons-scroller>
+        </ons-dialog>
+    </ons-template>
+    
+    <ons-template id="new_playlist.html">
+        <ons-dialog var="dialog_new" cancelable ng-controller="DialogPlaylistController" ons-posthide="onDialogHide();" style="background: #28292a; border: 1px solid white;">
+            <ons-toolbar inline class="toolbar-color" fixed-style="">
+                <div class="center">
+                    <span ng-if="playlist_mode === 'online'">New Playlist</span>
+                    <span ng-if="playlist_mode === 'offline'">New Offline Playlist</span>
+                </div>
+            </ons-toolbar>
+            <p>
+                <input placeholder="Enter a playlist name" ng-model="playlist_name" ng-focus="onFocus()"
+                    class="text-input {{required}}" style="width: 100%; height: 40px;">
+            </p>
+            <p>
+                <ons-button modifier="normal" ng-click="onCreateClick()" style="width: 100%; text-align: center;">Create</ons-button>
+            </p>
+        </ons-dialog>
+    </ons-template>
+    
+    <ons-template id="update_playlist.html">
+        <ons-dialog var="dialog_update" cancelable ng-controller="DialogPlaylistController" ons-preshow="onDialogShow();" style="background: #28292a; border: 1px solid white;">
+            <ons-toolbar inline class="toolbar-color" fixed-style="">
+                <div class="center">
+                    <span ng-if="playlist_mode === 'online'">Update Playlist</span>
+                    <span ng-if="playlist_mode === 'offline'">Update Offline Playlist</span>
+                </div>
+            </ons-toolbar>
+            <p>
+                <input ng-model="playlist_name" ng-disabled="true" class="text-input" style="width: 100%; height: 40px;">
+            </p>
+            <p>
+                <input placeholder="Enter a new playlist name" ng-model="new_playlist_name" ng-focus="onFocus()"
+                    class="text-input {{required}}" style="width: 100%; height: 40px;">
+            </p>
+            <p>
+                <ons-button modifier="normal" ng-click="onUpdateClick()" style="width: 100%; text-align: center;">Update</ons-button>
+            </p>
+        </ons-dialog>
+    </ons-template>
+
+    <!-- Main Menu - Subview -->
+    <ons-template id="menu_main.html">
+    <ons-page ng-controller="MenuController" style="background: #28292a;">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="left">
+                <ons-toolbar-button ng-click="app.slidingMenu.closeMenu();">
+                    <ons-icon icon="ion-chevron-left" class="icon-color"></ons-icon> 
+                    <span class="icon-color">Back</span>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">
+                <span ng-show="pageTitle!==''">
+                    {{ pageTitle }}
+                </span>
+                <div class="navigation-bar toolbar-color" ng-if="choice==='artist'">
+                    <div class="navigation-bar__center">
+                    <!-- segment control -->
+                        <div class="button-bar segment" ng-if="select==='album'">
+                            <div class="button-bar__item" ng-click="onAlbumClick()">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">Album</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onArtistClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Artist</div>
+                            </div>
+                        </div>
+                        <div class="button-bar segment" ng-if="select==='artist'">
+                            <div class="button-bar__item" ng-click="onAlbumClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Album</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onArtistClick()">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">Artist</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-bar toolbar-color" ng-if="choice==='history'">
+                    <div class="navigation-bar__center">
+                    <!-- segment control -->
+                        <div class="button-bar segment-wider">
+                            <div class="button-bar__item" ng-click="onHistoryClick()">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">History</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onRecentClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Recent</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onFeatureClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Feature</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-bar toolbar-color" ng-if="choice==='top'">
+                    <div class="navigation-bar__center">
+                    <!-- segment control -->
+                        <div class="button-bar segment-wider">
+                            <div class="button-bar__item" ng-click="onTopClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Top</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onFeatureClick()">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">Feature</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onNewClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">New</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-bar toolbar-color" ng-if="choice==='chart'">
+                    <div class="navigation-bar__center">
+                    <!-- segment control -->
+                        <div class="button-bar segment-wider">
+                            <div class="button-bar__item" ng-click="onChartClick('day')">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">Daily</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onChartClick('week')">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Weekly</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onChartClick('month')">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Monthly</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div ng-show="grid==='show'">
+                    <ons-toolbar-button ng-click="onQuickSearchClick();" ng-if="choice==='artist' || choice==='mvs'"><ons-icon icon="search" class="icon-color"></ons-icon></ons-toolbar-button>
+                    <ons-toolbar-button ng-click="onListClick();" ng-if="isShowGrid"><ons-icon icon="list-ul" class="icon-color"></ons-icon></ons-toolbar-button>
+                    <ons-toolbar-button ng-click="onGridClick();" ng-if="isShowGrid===false"><ons-icon icon="th" class="icon-color"></ons-icon></ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='history' || choice==='top' || choice==='chart' || choice==='new_album'">
+                    <ons-toolbar-button ng-click="onMusicPlay();">
+                        <span class="icon-color">Play</span>
+                    </ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='download'">
+                    <img src="images/loading.gif" style="width: 15px; margin-bottom: -4px;" ng-if="isDownloading" />
+                    <ons-toolbar-button ng-click="onMusicPlay();">
+                        <span class="icon-color">Play</span>
+                    </ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='my_playlist'">
+                    <ons-toolbar-button ng-click="onPlaylistAdd();" ng-if="select==='my_playlist'">
+                        <span class="icon-color">New</span>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button ng-click="onMusicPlay();" ng-if="select==='my_playlist_music'">
+                        <span class="icon-color">Play</span>
+                    </ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='search'">
+                    <ons-toolbar-button ng-click="onSearchPlayClick();"><span class="icon-color">Play</span></ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='playlist'">
+                    <ons-toolbar-button ng-click="onSwitchPlayerClick();"><ons-icon icon="{{switchIcon}}" class="icon-color"></ons-icon></ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='mv'">
+                    <ons-toolbar-button ng-click="onPlayMVClick();"><span class="icon-color">Play</span></ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='news'">
+                    <ons-toolbar-button ng-click="onShareNewsClick();"><span class="icon-color">Share</span></ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='playlist_detail' || choice==='offline'">
+                    <ons-toolbar-button ng-click="onPlaylistSettingClick();">
+                        <ons-icon icon="edit" class="icon-color"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div ng-show="choice==='profile'">
+                    <ons-toolbar-button>
+                        <img src="images/loading.gif" style="width: 20px; margin-bottom: -4px;" ng-if="progressing=='start'" />
+                    </ons-toolbar-button>
+                </div>
+            </div>
+        </ons-toolbar>
+        <ons-bottom-toolbar class="toolbar">
+            <div class="navigation-bar toolbar-color" ng-show="choice==='artist' || choice==='mvs'">
+                <div class="navigation-bar__center">
+                    <!-- segment control -->
+                    <div class="button-bar segment-production">
+                        <div class="button-bar__item" ng-click="onAlbumFilterClick('RHM')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">RHM</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onAlbumFilterClick('Sunday')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">Sunday</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onAlbumFilterClick('Town')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">Town</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onAlbumFilterClick('Phleng')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">Phleng</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onAlbumFilterClick('WE')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">WE</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="popover.show($event);">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">More</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="choice==='offline'">
+                <ons-list style="border-top: none; background: #57595b;">
+                    <ons-list-item class="toolbar-bottom" style="color: #fff;">
+                        New Contents Available Online
+                    </ons-list-item>
+                </ons-list>
+            </div>
+            <div class="navigation-bar toolbar-color" ng-show="(choice==='new_album' && pageTitle.indexOf('CD')===-1)">
+                <div class="navigation-bar__center">
+                    <!-- segment control -->
+                    <div class="button-bar segment-production">
+                        <div class="button-bar__item" ng-click="onMusicSortBy('title')">
+                            <input type="radio" name="navi-segment-a" checked>
+                            <div class="button-bar__button">ចំណងជើង</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onMusicSortBy('title_en')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">អក្ខរក្រម</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onMusicSortBy('album')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">អាល់ប៊ុម</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onMusicSortBy('view')">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">និយមស្ដាប់</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="choice==='search' || choice==='download' || choice==='playlist' || choice==='playlist_detail' || choice==='history' || choice==='top' || choice==='chart' || choice==='my_playlist' || choice==='serie' || choice==='archive' || choice==='news' || choice==='mv' || (choice==='new_album' && pageTitle.indexOf('CD')>-1)">
+                <ons-list style="border-top: none; background: #57595b;" ng-if="!showPlayer">
+                    <ons-list-item style="margin-top: -4px;">
+                        <ons-row class="action">
+                            <ons-col class="action-col" ng-click="onAppleClick()">
+                              <div class="action-icon"><img src="images/apple.png" style="height: 32px;" /></div>
+                            </ons-col>
+                            <ons-col class="action-col" ng-click="onFacebookClick()">
+                              <div class="action-icon"><img src="images/facebook.png" style="height: 32px;" /></div>
+                            </ons-col>
+                            <ons-col class="action-col" ng-click="onGoogleClick()">
+                              <div class="action-icon"><img src="images/google.png" style="height: 32px;" /></div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                </ons-list>
+                <div style="text-align: center; line-height: 44px;" ng-if="showPlayer">
+                    <ons-toolbar-button modifier="quiet" ng-click="onFavoriteClick()" class="button-player">
+                        <i class="fa fa-heart-o" style="font-size: 25px;" ng-if="!isHearting"></i>
+                        <img ng-src="images/loading.gif" style="width: 25px; margin-bottom: -2px;" ng-if="isHearting"></img>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button modifier="quiet" ng-click="onPlayPrevious()" class="button-player">
+                        <i class="fa fa-backward" style="font-size: 25px;"></i>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button modifier="quiet" class="button-player" ng-if="isStarting">
+                        <i class="fa fa-circle-o-notch fa-spin" style="font-size: 21px;"></i>
+                    </ons-toolbar-button>
+                    <span ng-show="player.playing">
+                        <ons-toolbar-button modifier="quiet" ng-click="player.pause()" class="button-player" ng-if="!isStarting">
+                            <i class="fa fa-pause" style="font-size: 25px;"></i>
+                        </ons-toolbar-button>
+                    </span>
+                    <span ng-show="!player.playing">
+                        <ons-toolbar-button modifier="quiet" ng-click="player.play()" class="button-player" ng-if="!isStarting">
+                            <i class="fa fa-play" style="font-size: 27px;"></i>
+                        </ons-toolbar-button>
+                    </span>
+                    <ons-toolbar-button modifier="quiet" ng-click="onPlayNext()" class="button-player">
+                        <i class="fa fa-forward" style="font-size: 25px;"></i>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button modifier="quiet" ng-click="onDownloadClick()" class="button-player" ng-if="showTV && isOnline">
+                        <i class="fa fa-cloud-download" style="font-size: 25px;"></i>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button modifier="quiet" ng-click="onUnlinkClick()" class="button-player" ng-if="!showTV || !isOnline">
+                        <i class="fa fa-unlink" style="font-size: 28px;"></i>
+                    </ons-toolbar-button>
+                </div>
+            </div>
+            <div ng-show="choice==='tv' || choice==='radio' || choice==='profile'">
+                <ons-list style="border-top: none; background: #57595b;">
+                    <ons-list-item style="margin-top: -4px;">
+                        <ons-row class="action">
+                            <ons-col class="action-col" ng-click="onAppleClick()">
+                              <div class="action-icon"><img src="images/apple.png" style="height: 32px;" /></div>
+                            </ons-col>
+                            <ons-col class="action-col" ng-click="onFacebookClick()">
+                              <div class="action-icon"><img src="images/facebook.png" style="height: 32px;" /></div>
+                            </ons-col>
+                            <ons-col class="action-col" ng-click="onGoogleClick()">
+                              <div class="action-icon"><img src="images/google.png" style="height: 32px;" /></div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                </ons-list>
+            </div>
+        </ons-bottom-toolbar>
+
+        <div ng-show="(choice==='artist' && showSearch) || (choice==='mvs' && showSearch)">
+            <div style="text-align: center;">
+                <section class="toolbar-color {{ searchBy }}">
+                    <input type="search" class="search-input" placeholder="Quick search for {{ searchBy }}..." ng-model="searchQuery">
+                </section>
+            </div>
+        </div>
+    
+        <!-- Search -->
+        <div ng-show="choice==='search'">
+            <div style="text-align: center;">
+                <section class="toolbar-color music">
+                    <form ng-submit="onStartSearchClick();">
+                    <input type="search" class="search-input" placeholder="ស្វែងរកតាមចំណងជើង..." ng-model="searchText">
+                    </form>
+                </section>
+            </div>
+        </div>
+    
+        <!-- Music Video -->
+        <div ng-if="choice==='mv'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics" ng-click="onMVPlaySelect(item);">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="music-num">
+                                {{ $index + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="85px">
+                            <img ng-src="{{mvPath}}/{{item.album}}/{{item.thumb}}" class="list-mv-thum" ng-if="item.type==='video/mp4'"></img>
+                            <img ng-src="http://img.youtube.com/vi/{{item.type}}/0.jpg" class="list-mv-thum-tube" ng-if="item.type!=='video/mp4'"></img>
+                        </ons-col>
+                        <ons-col>
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-video-camera live-color" style="font-size: 11px; opacity: 0.7;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action">
+                            <i class="fa fa-play-circle-o live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        
+        <!-- Music Searching -->
+        <div ng-if="choice==='search'">
+            <ons-list ng-if="showNoItem && musics.length == 0">
+                <ons-list-item class="playlist-list">
+                    <div class="playlist-title" style="text-align: center; margin: 10px;">
+                        <img src="images/loading.gif" class="loading" style="width: 28px;" ng-if="isLoading" />
+                        <span ng-if="!isLoading">មិនមានលទ្ធផល - ស្វែងរកតាមចំណងជើង...</span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list" ng-if="musics.length > 0">
+                <ons-list-item modifier="tappable" class="playlist-list" ng-repeat="item in musics | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="playlist-title">
+                                &nbsp; {{ item.title }} &nbsp;<img src="images/bars.gif" ng-if="item.id===musicNow.id && player.playing"/>
+                            </div>
+                            <div class="playlist-desc">
+                                &nbsp; <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                &nbsp; <i class="fa fa-user-secret live-color" style="font-size: 10px;"></i> {{ item.artist }}
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+
+        <!-- Music -- {Top, New}, {History, Recent} -->
+        <div ng-if="choice==='history' || choice==='top' || choice==='chart'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="musics.length > 0 && musics.length > limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="music-num">
+                                {{ limitToMusic + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px">
+                            <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                        </ons-col>
+                        <ons-col>
+                            <div class="music-title">
+                                Load more music...
+                            </div>
+                            <div class="music-desc">
+                                Click here to see more music...
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        
+        <!-- Music -- {New Album} -->
+        <div ng-if="choice==='new_album' || choice==='playlist_detail'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="musics.length > 0 && musics.length > limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="music-num">
+                                {{ limitToMusic + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px">
+                            <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                        </ons-col>
+                        <ons-col>
+                            <div class="music-title">
+                                Load more music...
+                            </div>
+                            <div class="music-desc">
+                                Click here to see more music...
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>    
+        
+        <!-- Music by Offline Playlist -- {Offline Mode} -->
+        <div ng-if="choice==='offline'">
+            <div class="info" ng-if="showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="musics.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="images/offline.jpg" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-cloud-download live-color" style="font-size: 11px;"></i> {{ formatFileSize(item.size) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick_Offline(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="musics.length > 0 && musics.length > limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="music-num">
+                                {{ limitToMusic + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px">
+                            <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                        </ons-col>
+                        <ons-col>
+                            <div class="music-title">
+                                Load more music...
+                            </div>
+                            <div class="music-desc">
+                                Click here to see more music...
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+    
+        <!-- Music Download - Offline Mode -->
+        <div ng-if="choice==='download'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div ng-if="!isLoading">
+                <div class="info" ng-if="showNoItem">
+                    {{ messageNoMusic }}
+                </div>
+                <ons-list class="ons-list" ng-if="musics.length > 0">
+                    <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics | limitTo: limitToMusic">
+                        <ons-row>
+                            <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                                <div class="music-num">
+                                    <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                    <span ng-show="{{item.id}}===musicNow.id">
+                                        <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                        <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                    </span>
+                                </div>
+                            </ons-col>
+                            <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                                <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum" ng-if="isOnline"></img>
+                                <img ng-src="images/offline.jpg" class="list-music-thum" ng-if="!isOnline"></img>
+                            </ons-col>
+                            <ons-col ng-click="onMusicSelect(item, $index);">
+                                <div class="music-title">
+                                    {{ item.title }}
+                                </div>
+                                <div class="music-desc">
+                                    {{ item.artist }}
+                                </div>
+                                <div class="music-album">
+                                    <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                    <span style="float: right;">
+                                        <i class="fa fa-cloud-download live-color" style="font-size: 11px;"></i> {{ formatFileSize(item.size) }}
+                                    </span>
+                                </div>
+                            </ons-col>
+                            <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                                <i class="fa fa-navicon live-color button-action-icon"></i>
+                            </ons-button>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="musics.length > 0 && musics.length > limitToMusic">
+                        <ons-row>
+                            <ons-col width="25px">
+                                <div class="music-num">
+                                    {{ limitToMusic + 1 }}
+                                </div>
+                            </ons-col>
+                            <ons-col width="75px">
+                                <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                            </ons-col>
+                            <ons-col>
+                                <div class="music-title">
+                                    Load more music...
+                                </div>
+                                <div class="music-desc">
+                                    Click here to see more music...
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                </ons-list>
+            </div>
+        </div>
+        
+        <!-- All MVs -->
+        <div ng-if="choice==='mvs'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div ng-show="!isLoading && select==='mvs'">
+                <div class="wrapper" ng-if="isShowGrid">
+                    <div class="container">
+                        <ul class="grid-na rig columns-3">
+                            <li ng-repeat="item in filtered_albums = (mvs | filter: searchQuery | filter: filterAlbum) | limitTo: limitToNum" ng-click="onMVAlbumSelect(item);">
+                                <img src="{{mvPath}}/{{item.album}}/{{item.thumb}}" class="grid-item-thum"/><span class="classify-item">{{item.album}}</span>
+                            </li>
+                            <li ng-click="onLoadMVClick();" ng-if="albums.length > 0 && filtered_albums.length > limitToNum">
+                                <img src="images/more.jpg" class="grid-item-thum" style="opacity: 0.2;" /><span class="classify-item">Load more...</span>
+                            </li>
+                            <li ng-click="on404MVClick();" ng-if="!isLoading && filtered_albums.length === 0">
+                                <img src="images/404.jpg" class="grid-item-thum" style="opacity: 0.7;" /><span class="classify-item">Not found...</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="!isShowGrid">
+                    <ons-list>
+                        <ons-list-item modifier="chevron" class="list-item" ng-repeat="item in filtered_albums = (mvs | filter: searchQuery | filter: filterAlbum) | limitTo: limitToNum" ng-click="onMVAlbumSelect(item);">
+                            <ons-row>
+                                <ons-col width="105px">
+                                    <img ng-src="{{mvPath}}/{{item.album}}/{{item.thumb}}" class="list-item-thum"></img>
+                                </ons-col>
+                                <ons-col>
+                                    <div class="item-title">
+                                        {{ item.album }}
+                                    </div>
+                                    <div class="item-desc">
+                                        {{ item.description }}
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                        <ons-list-item class="list-item" ng-click="onLoadMVClick();" ng-if="albums.length > 0 && filtered_albums.length > limitToNum">
+                            <ons-row>
+                                <ons-col width="105px">
+                                    <img ng-src="images/more.jpg" class="list-item-thum" style="opacity: 0.2;" />
+                                </ons-col>
+                                <ons-col>
+                                    <div class="item-title">
+                                        Load more...
+                                    </div>
+                                    <div class="item-desc">
+                                        Click here to load more albums...
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                        <ons-list-item ng-click="on404MVClick();" ng-if="!isLoading && filtered_albums.length === 0">
+                            <div class="info">
+                                Not found...
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Artist & Album -->
+        <div ng-if="choice==='artist'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div ng-show="!isLoading && select==='album'">
+                <div class="wrapper" ng-if="isShowGrid">
+                    <div class="container">
+                        <ul class="grid-na rig columns-3">
+                            <li ng-repeat="item in filtered_albums = (albums | filter: searchQuery | filter: filterAlbum) | limitTo: limitToNum" ng-click="onAlbumSelect(item);">
+                                <img src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="grid-item-thum"/><span class="classify-item">{{item.album}}</span>
+                            </li>
+                            <li ng-click="onLoadMoreClick();" ng-if="albums.length > 0 && filtered_albums.length > limitToNum">
+                                <img src="images/more.jpg" class="grid-item-thum" style="opacity: 0.2;" /><span class="classify-item">Load more...</span>
+                            </li>
+                            <li ng-click="on404Click();" ng-if="!isLoading && filtered_albums.length === 0">
+                                <img src="images/404.jpg" class="grid-item-thum" style="opacity: 0.7;" /><span class="classify-item">Not found...</span>
+                            </li>
+                    	</ul>
+                    </div>
+                </div>
+                <div ng-if="!isShowGrid">
+                    <ons-list>
+                        <ons-list-item modifier="chevron" class="list-item" ng-repeat="item in filtered_albums = (albums | filter: searchQuery | filter: filterAlbum) | limitTo: limitToNum" ng-click="onAlbumSelect(item);">
+                            <ons-row>
+                                <ons-col width="105px">
+                                    <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-item-thum"></img>
+                                </ons-col>
+                                <ons-col>
+                                    <div class="item-title">
+                                        {{ item.album }}
+                                    </div>
+                                    <div class="item-desc">
+                                        {{ item.description }}
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                        <ons-list-item class="list-item" ng-click="onLoadMoreClick();" ng-if="albums.length > 0 && filtered_albums.length > limitToNum">
+                            <ons-row>
+                                <ons-col width="105px">
+                                    <img ng-src="images/more.jpg" class="list-item-thum" style="opacity: 0.2;" />
+                                </ons-col>
+                                <ons-col>
+                                    <div class="item-title">
+                                        Load more...
+                                    </div>
+                                    <div class="item-desc">
+                                        Click here to load more albums...
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                        <ons-list-item ng-click="on404Click();" ng-if="!isLoading && filtered_albums.length === 0">
+                            <div class="info">
+                                Not found...
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </div>
+            </div>
+            <div ng-show="!isLoading && select==='artist'">
+                <div class="wrapper" ng-if="isShowGrid">
+                    <div class="container">
+                        <ul class="grid-na rig columns-3">
+                            <li ng-repeat="item in filtered_artists = (artists | filter: searchQuery | filter: filterAlbum)" ng-click="onArtistSelect(item, $index);">
+                                <img src="{{artistPath}}/{{item.thumb}}" class="grid-item-thum"/><span class="classify-item">{{item.name}}</span>
+                            </li>
+                            <li ng-click="on404Click();" ng-if="filtered_artists.length === 0">
+                                <img src="images/404.jpg" class="grid-item-thum" style="opacity: 0.7;" /><span class="classify-item">Not found...</span>
+                            </li>
+                		</ul>
+                    </div>
+                </div>
+                <div ng-if="!isShowGrid">
+                    <ons-list>
+                        <ons-list-item modifier="chevron" class="list-music" ng-repeat="item in filtered_artists = (artists | filter: searchQuery | filter: filterAlbum)" ng-click="onArtistSelect(item, $index);">
+                            <ons-row>
+                                <ons-col width="25px">
+                                    <div class="music-num">
+                                        <span ng-show="{{$index}}!==track">{{ $index + 1 }}</span>
+                                    </div>
+                                </ons-col>
+                                <ons-col width="75px">
+                                    <img ng-src="{{artistPath}}/{{item.thumb}}" class="singer-thum"></img>
+                                </ons-col>
+                                <ons-col>
+                                    <div class="singer-name">
+                                        {{ item.name }}
+                                    </div>
+                                    <div class="singer-desc">
+                                        {{ item.name_en }}
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                        <ons-list-item ng-click="on404Click();" ng-if="filtered_artists.length === 0">
+                            <div class="info">
+                                Not found...
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Music Playlist -->
+        <div ng-if="choice==='playlist'">
+            <div ng-if="switchIcon==='music'">
+            <ons-list style="background: #28292a">
+                <ons-list-item>
+                    <ons-row>
+                        <ons-col width="50px">
+                            <div style="margin: 15px 0 0 5px;">
+                                <img ng-src="images/loading.gif" style="width: 89px; margin-left: 10px;" ng-if="isOnline && isChecking"></img>
+                                <img ng-src="{{musicPath}}/{{musicNow.album}}/{{musicNow.thumb}}" style="width: 102px; height: 89px;" ng-if="isOnline && !isChecking"></img>
+                                <img ng-src="images/offline.jpg" style="width: 102px; height: 89px;" ng-if="!isOnline"></img>
+                            </div>
+                        </ons-col>
+                        <ons-col>
+                            <div class="playlist-now">
+                                {{ musicNow.title }}
+                            </div>
+                            <div class="playlist-now">
+                                <i class="fa fa-user-secret live-color" style="font-size: 12px;"></i> {{ musicNow.artist }}
+                            </div>
+                            <div class="playlist-now">
+                                <i class="fa fa-qrcode live-color" style="font-size: 13px;"></i> {{ musicNow.album }}
+                            </div>
+                            <div class="playlist-now">
+                                <i class="fa fa-heart-o live-color" style="font-size: 13px;"></i> 
+                                    {{ formatNumber(musicNow.liked) }} &nbsp;
+                                <i class="fa fa-ellipsis-v live-color" style="font-size: 12px;"></i> &nbsp;
+                                <i class="fa fa-headphones live-color" style="font-size: 13px;"></i> 
+                                    {{ formatNumber(musicNow.view) }} &nbsp;
+                                <i class="fa fa-ellipsis-v live-color" style="font-size: 12px;"></i> &nbsp;
+                                <i class="fa fa-at live-color" style="font-size: 13px;"></i> 
+                                    {{ musicNow_index + 1 }}
+                                <img src="images/bars.gif" style="margin-bottom: -2px;" ng-show="player.playing" />
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list">
+                <ons-list-item modifier="tappable" class="playlist-list" ng-repeat="item in music_playlists | limitTo: limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onPlaylistSelect(item, $index);">
+                            <div class="playlist-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="60px" ng-click="onPlaylistSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="playlist-thum" ng-if="isOnline"></img>
+                            <img ng-src="images/offline.jpg" class="playlist-thum" ng-if="!isOnline"></img>                        
+                        </ons-col>
+                        <ons-col ng-click="onPlaylistSelect(item, $index);">
+                            <div class="playlist-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="playlist-desc" style="margin-right: -24px;">
+                                {{ item.artist }}
+                                <span ng-show="item.src.indexOf('superean.com') == -1" style="float: right;"><i class="fa fa-cloud-download live-color" style="font-size: 11px;"></i></span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick_playlist(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="music_playlists.length > 0 && music_playlists.length > limitToMusic">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="music-num">
+                                {{ limitToMusic + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px">
+                            <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                        </ons-col>
+                        <ons-col>
+                            <div class="music-title">
+                                Load more music...
+                            </div>
+                            <div class="music-desc">
+                                Click here to see more music...
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            </div>
+            <div ng-if="switchIcon==='list-alt'">
+                <div class="profile-card">
+                    <img ng-src="{{musicPath}}/{{musicNow.album}}/{{musicNow.thumb}}" class="profile-image" ng-if="isOnline"></img>
+                    <img ng-src="images/offline.jpg" class="profile-image" ng-if="!isOnline"></img>
+                    <div class="profile-name">{{ musicNow.title }}</div>
+                    <div class="profile-id"><i class="fa fa-user-secret live-color" style="font-size: 12px;"></i> {{ musicNow.artist }}</div>
+                    <div class="profile-desc"><i class="fa fa-qrcode live-color" style="font-size: 13px;"></i> {{ musicNow.album }}</div>
+                    <div class="profile-desc">
+                        <i class="fa fa-heart-o live-color" style="font-size: 13px;"></i> 
+                            {{ formatNumber(musicNow.liked) }} &nbsp;
+                        <i class="fa fa-ellipsis-v live-color" style="font-size: 12px;"></i> &nbsp;
+                        <i class="fa fa-headphones live-color" style="font-size: 13px;"></i> 
+                            {{ formatNumber(musicNow.view) }} &nbsp;
+                        <i class="fa fa-ellipsis-v live-color" style="font-size: 12px;"></i> &nbsp;
+                        <i class="fa fa-at live-color" style="font-size: 13px;"></i> 
+                            {{ musicNow_index + 1 }}
+                    </div>
+                    <div class="profile-desc">
+                        <span ng-show="!player.playing">
+                            <i class="fa fa-play play-color" style="font-size: 14px; margin: 4px 2px 0 3px;"></i>
+                        </span> 
+                        <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span> 
+                            {{ formatTime(player.currentTime) }} <i class="fa fa-arrows-h"></i> {{ formatTime(player.duration) }}
+                        <span style="display: none;">
+                            {{ player.duration = (player.duration==0) ? 250 : player.duration; }}
+                            {{ musicSlider = (!player.currentTime) ? 0 : player.currentTime * 100 / player.duration }}
+                        </span>
+                    </div>
+                    <div class="profile-desc">
+                        <ons-button modifier="quiet" ng-click="onShuffleClick();">
+                            <ons-icon icon="random" class="icon-shuffle-off" style="font-size: 23px;" ng-if="!isShuffle"></ons-icon>
+                            <ons-icon icon="random" class="icon-shuffle-on" style="font-size: 23px;" ng-if="isShuffle"></ons-icon>
+                        </ons-button>
+                        <input type="range" class="range" style="width: 220px; margin-top: 5px;" ng-model="musicSlider" disabled="">
+                        <ons-button modifier="quiet" ng-click="onRepeatClick();">
+                            <ons-icon icon="ion-arrow-swap" class="icon-repeat-off" style="font-size: 28px;" ng-if="!isRepeat"></ons-icon>
+                            <ons-icon icon="ion-arrow-swap" class="icon-repeat-on" style="font-size: 28px;" ng-if="isRepeat"></ons-icon>
+                        </ons-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Profile -->
+        <div ng-if="choice==='profile'">
+            <ons-list modifier="noborder">
+                <ons-list-item modifier="chevron" class="list-item" ng-click="onUserProfileClick();">
+                    <ons-row>
+                        <ons-col width="105px">
+                            <img ng-src="{{profile.image_l}}" class="profile-item-thum" ng-if="profile.image_l.length > 0"></img>
+                            <img ng-src="images/user.png" class="profile-item-thum" ng-if="profile.image_l.length == 0"></img>
+                        </ons-col>
+                        <ons-col>
+                            <div class="item-title">
+                                {{ profile.name }}
+                            </div>
+                            <div class="item-desc">
+                                {{ profile.email }}
+                            </div>
+                            <div class="item-more">
+                                {{ profile.uuid }}
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            <ons-list modifier="noborder" style="background: #28292a;">
+                <ons-list-item>
+                  <ons-row>
+                    <ons-col class="info-col">
+                      <div class="info-num">{{ formatNumber(stats.n_played_music) }}</div>
+                      <div class="info-unit">Play Music</div>
+                    </ons-col>
+                    <ons-col class="info-col">
+                      <div class="info-num">{{ formatNumber(stats.n_downloaded) }}</div>
+                      <div class="info-unit">Download Music</div>
+                    </ons-col>
+                    <ons-col class="info-col">
+                      <div class="info-num">{{ formatNumber(stats.n_played_mv) }}</div>
+                      <div class="info-unit">Play MV</div>
+                    </ons-col>
+                  </ons-row>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list" style="margin-top: 10px; background: #57595b;">
+                <ons-list-item modifier="chevron" class="list__item__line-height" ng-repeat="item in musicOptions" ng-click="onOptionSelect_profile(item, $index);">
+                    <ons-icon icon="{{item.icon}}" class="live-color"></ons-icon>
+                    <span style="color: #fff;">&nbsp; {{item.name}}</span>
+                </ons-list-item>
+            </ons-list>
+            
+            <div class="section-header" style="margin-top: 15px; margin-bottom: 15px; font-size: 16px;">
+                Storages
+            </div>
+            <ons-list class="ons-list" style="background: #57595b;">
+                <ons-list-item modifier="chevron" class="list__item__line-height" ng-click='onDownloadStorageClick()' ng-if="showTV || (!isOnline && offline_musics.length > 0)">
+                    <i class="fa fa-cloud-download fa-lg" style="color: #fff; width: 19px;"></i>
+                    <span style="color: #fff;">&nbsp; Free Up Your Storage</span>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list__item__line-height" ng-click='onClearCacheClick()'>
+                    <i class="fa fa-hdd-o fa-lg" style="color: #fff"></i>
+                    <span style="color: #fff;">&nbsp; Clear Cache Files</span>
+                </ons-list-item>
+            </ons-list>
+            
+            <div class="section-header" style="margin-top: 15px; margin-bottom: 15px; font-size: 16px;">
+                General
+            </div>
+            <ons-list class="ons-list" style="margin-top: 10px; background: #57595b;">
+                <ons-list-item modifier="tappable" class="list__item__line-height" ng-click='onRefreshClick()'>
+                    <i class="ion-refresh fa-lg" style="color: #fff"></i>
+                    <span style="color: #fff;">&nbsp; Music Update (Sync.)</span>
+                </ons-list-item>
+                <ons-list-item modifier="tappable" class="list__item__line-height" ng-click='onContactClick()'>
+                    <i class="fa fa-commenting-o fa-lg" style="color: #fff"></i>
+                    <span style="color: #fff;">&nbsp;Tell Us What You Think</span>
+                </ons-list-item>
+            </ons-list>
+        </div>
+
+        <!-- TV & Radio -->
+        <div ng-if="choice==='tv'">
+            <ons-list class="ons-list">
+                <ons-list-item modifier="tappable" class="list-item" ng-repeat="item in liveItems | filter:{type: 'tv'}" ng-click="onLiveItemSelect(item);">
+                    <ons-row>
+                        <ons-col width="105px">
+                            <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-item-thum"></img>
+                        </ons-col>
+                        <ons-col>
+                            <div class="item-title">
+                                {{ item.name }}
+                            </div>
+                            <div class="item-desc">
+                                {{ item.name_kh }}
+                            </div>
+                            <div class="item-more">
+                                {{ item.description }}
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        
+        <div ng-if="choice==='radio'">
+            <ons-list class="wrapper-album">
+                <ons-list-item 
+                    class="internal" ng-repeat="item in liveItems | filter: {type: 'archive'}" ng-click="onLiveItemSelect(item);">
+                        <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-radio-archive"></img>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list" modifier="noborder" style="margin-top: -10px;">
+                <ons-list-item modifier="tappable" class="list-item" ng-repeat="item in liveItems | filter: {type: 'radio'}" ng-click="onLiveItemSelect(item);">
+                    <ons-row>
+                        <ons-col width="105px">
+                        <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-item-thum"></img>
+                        </ons-col>
+                        <ons-col>
+                            <div class="item-title">
+                                {{ item.name }}
+                            </div>
+                            <div class="item-desc">
+                                {{ item.name_kh }}
+                            </div>
+                            <div class="item-more">
+                                {{ item.description }}
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+
+        <!-- Radio Archive -->
+        <div ng-if="choice==='archive'">
+            <div class="wrapper" ng-if="isShowGrid">
+                <div class="container">
+                    <ul class="grid-na rig columns-3">
+                        <li ng-repeat="item in liveItems" ng-click="onRadioSelect(item);">
+                            <img src="{{thumbPath}}/{{item.thumb}}" class="grid-item-thum"/><span class="classify-item">{{ item.date | date : "fullDate" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-if="isShowGrid===false">
+            <ons-list class="ons-list">
+                <ons-list-item modifier="tappable" class="playlist-list" ng-repeat="item in liveItems" ng-click="onRadioSelect(item);">
+                    <ons-row>
+                        <ons-col width="25px">
+                            <div class="playlist-num">
+                                {{ $index + 1 }}
+                            </div>
+                        </ons-col>
+                        <ons-col width="60px">
+                            <img ng-src="{{thumbPath}}/{{item.thumb}}" class="playlist-thum"></img>
+                        </ons-col>
+                        <ons-col>
+                            <div class="playlist-title">
+                                {{ item.date | date : "fullDate" }}
+                            </div>
+                            <div class="playlist-desc" style="margin-right: -24px;">
+                                {{ item.name }}
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            </div>
+        </div>
+    
+    </ons-page>
+    </ons-template>    
+    
+</body>
+</html>

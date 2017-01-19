@@ -1,0 +1,248 @@
+/* This is a CSS file */
+
+.section-header {
+    font-size: 14px;
+    text-align: left; 
+    margin: 5px 0 10px 10px;
+    color: #ffffff;
+}
+
+.see-all {
+    float: right; 
+    color: #ffffff;
+    font-size: 12px;
+    margin-top: -10px;   
+}
+
+.icon-action {
+    font-size: 28px;
+}
+
+.playlist-now {
+    color: #fff;
+    text-align: left;
+    font-size: 14px;
+    max-height: 33px;
+    overflow: hidden;
+    margin-top: -1px;
+    margin-bottom: -8px;
+    margin-left: 70px;
+}
+
+/*  use in release album  */
+.wrapper-album {
+    width: 100%;
+    background: #28292a;
+    white-space: nowrap;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.internal {
+	display: inline;
+}
+
+.list-new-album {
+    width: 85px;
+    margin: 5px -15px 0 -5px;
+}
+
+.list-feature-artist {
+    height: 76px;
+    margin: 5px -15px 0 -5px;
+}
+
+.list-radio-archive {
+    width: 75px;
+    margin: 5px -15px 0 -5px;
+    border-radius: 5%;
+    box-shadow: 5px 0px 3px #888888;
+}
+
+.list-sponsor {
+    height: 73px;
+    margin: 5px -15px 0 -5px;
+}
+
+.mv-opacity {
+    opacity: 0.5;
+}
+
+.list-mv-album {
+    width: 115px;
+    margin: 5px -15px 0 -5px;
+}
+
+.sponsor-list {
+    width: 100%;
+    background: #28292a;
+    margin-top: 10px;
+    margin-bottom: -5px;
+}
+.sponsor-list-thumb {
+    width: 100%;
+}
+
+/* iPhone < 5 */
+@media screen and (device-aspect-ratio: 2/3) {
+    .icon-action {
+        font-size: 22px;
+    }
+    .list-new-album {
+        width: 74px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-feature-artist {
+        height: 67px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-radio-archive {
+        width: 70px;
+        margin: 5px -15px 0 -5px;
+        border-radius: 5%;
+        box-shadow: 5px 0px 3px #888888;
+    }
+    .list-sponsor {
+        height: 64px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-mv-album {
+        width: 80px;
+        margin: 5px -15px 0 -5px;
+    }
+    .section-header {
+        font-size: 14px;
+        margin: 0px 0 10px 10px;
+    }
+    
+}
+
+/* iPhone 5 & 5S */
+@media screen and (device-aspect-ratio: 40/71) {
+    .icon-action {
+        font-size: 22px;
+    }
+    .list-new-album {
+        width: 74px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-feature-artist {
+        height: 67px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-radio-archive {
+        width: 70px;
+        margin: 5px -15px 0 -5px;
+        border-radius: 5%;
+        box-shadow: 5px 0px 3px #888888;
+    }
+    .list-sponsor {
+        height: 64px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-mv-album {
+        width: 80px;
+        margin: 5px -15px 0 -5px;
+    }
+    .section-header {
+        font-size: 14px;
+        margin: 0px 0 10px 10px;
+    }
+    
+}
+
+/* iPhone 6 */
+@media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (device-width : 375px) and (device-height : 667px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) and (-webkit-device-pixel-ratio : 2) {
+    .list-new-album {
+        width: 88px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-feature-artist {
+        height: 79px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-radio-archive {
+        width: 75px;
+        margin: 5px -15px 0 -5px;
+        border-radius: 5%;
+        box-shadow: 5px 0px 3px #888888;
+    }
+    .list-sponsor {
+        height: 76px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-mv-album {
+        width: 119px;
+        margin: 5px -15px 0 -5px;
+    }
+}
+
+/* iPhone 6 Plus */
+@media only screen and (min-device-width : 414px) and (max-device-width : 736px) and (device-width : 414px) and (device-height : 736px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 3) and (-webkit-device-pixel-ratio : 3) { 
+    .icon-action {
+        font-size: 30px;
+    }
+    .list-new-album {
+        width: 98px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-feature-artist {
+        height: 88px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-radio-archive {
+        width: 82px;
+        margin: 5px -15px 0 -5px;
+        border-radius: 5%;
+        box-shadow: 5px 0px 3px #888888;
+    }
+    .list-sponsor {
+        height: 84px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-mv-album {
+        width: 130px;
+        margin: 5px -15px 0 -5px;
+    }
+}
+
+/* iPad */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .icon-action {
+        font-size: 35px;
+    }
+    .list-new-album {
+        width: 130px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-feature-artist {
+        height: 123px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-sponsor {
+        height: 110px;
+        margin: 5px -15px 0 -5px;
+    }
+    .list-radio-archive {
+        width: 100px;
+        margin: 5px -15px 0 -5px;
+        border-radius: 5%;
+        box-shadow: 5px 0px 3px #888888;
+    }
+    .list-mv-album {
+        width: 140px;
+        margin: 5px -15px 0 -5px;
+    }
+    
+    .section-header {
+        font-size: 15px;
+        margin: 15px 0 15px 10px;
+    }
+    .see-all {
+        font-size: 13px;
+        margin-top: -10px;   
+    }
+    
+}
+

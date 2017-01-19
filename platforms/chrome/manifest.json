@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Khmer ME",
+    "description": "Khmer ME - Make for Khmer, Loved by People, and Amuse with the Latest Music & Entertainment.",
+    "version": "1.0.0",
+    "app": {
+        "background": {
+            "scripts": [
+                "background.js"
+            ]
+        }
+    },
+    "icons": {
+        "128": "icon.png"
+    },
+    "permissions": [],
+    "offline_enabled": false,
+    "optional_permissions": [],
+    "externally_connectable": {
+        "ids": [],
+        "matches": [],
+        "accepts_tls_channel_id": false
+    },
+    "short_name": "Khmer ME"
+}

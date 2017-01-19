@@ -1,0 +1,46 @@
+
+<ons-modal var="modal">
+    <i class="fa fa-spinner fa-spin fa-pulse" style="font-size: 28px;"></i>
+    <br><br>
+    Please wait ...
+</ons-modal>
+
+    <ons-page id="radio-page" ng-controller="OfflineController_playlist" style="background: #28292a">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="center">
+                កំរងបទចម្រៀង
+            </div>
+            <div class="left">
+                <ons-toolbar-button ng-click="onProfileClick();">
+                    <ons-icon icon="navicon" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="right">
+                <ons-toolbar-button ng-click="onOfflinePlaylistAdd();"><span class="icon-color">New</span></ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+
+        <div class="info" ng-if="showNoItem">
+            No playlist found.
+        </div>
+        <ons-list class="ons-list" ng-if="playlists.length > 0">
+            <ons-list-item modifier="chevron" class="my_playlist-list" ng-click="onOfflinePlaylistSelect(item, $index);" ng-repeat="item in playlists">
+                <ons-row>
+                    <ons-col width="25px">
+                        <div class="my_playlist-num live-color">
+                            {{ $index + 1 }}.
+                        </div>
+                    </ons-col>
+                    <ons-col width="10px">
+                    </ons-col>
+                    <ons-col>
+                        <div class="my_playlist-title">
+                            {{ item.name }}
+                        </div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+        
+    </ons-page>
+    

@@ -1,0 +1,304 @@
+
+/*  use in form  */
+.true {
+    border: 1px solid red;
+}
+
+.false {
+    border-color: #007AFF;
+    opacity: 0.7;    
+}
+
+.classify-item {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+/* Classify Ads Grid*/
+ul.grid-nav {
+    list-style: none;
+	font-size: .85em;
+	font-weight: 200;
+	text-align: center;
+}
+ul.grid-nav li {
+	display: inline-block;
+}
+ul.grid-nav li a {
+	display: inline-block;
+	background: #999;
+	color: #fff;
+	padding: 10px 20px;
+	text-decoration: none;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+ul.grid-nav li a:hover {
+	background: #7b0;
+}
+ul.grid-nav li a.active {
+	background: #333;
+}
+
+/* ----- Image grids ----- */
+ul.rig {
+    list-style: none;
+	font-size: 0px;
+	margin-left: -10.5%;
+}
+/* iPhone < 5 */
+@media screen and (device-aspect-ratio: 2/3) {
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+    	margin-left: -11.5%;
+    }
+    .classify-item {
+        font-size: 12px;
+    }
+}
+
+/* iPhone 5 & 5S */
+@media screen and (device-aspect-ratio: 40/71) {
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+    	margin-left: -11.5%;
+    }
+    .classify-item {
+        font-size: 12px;
+    }
+}
+
+/* iPhone 6 Plus */
+@media only screen and (min-device-width : 414px) and (max-device-width : 736px) and (device-width : 414px) and (device-height : 736px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 3) and (-webkit-device-pixel-ratio : 3) { 
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+    	margin-left: -9%;
+    }
+    .classify-item {
+        font-size: 14px;
+    }
+}
+
+ul.rig li {
+	display: inline-block;
+	padding: 5px;
+	margin: 1% 0.5% 0 0.5%;
+	background: #28292a;
+	border: 1px solid #ddd;
+	font-size: 16px;
+	font-size: 1rem;
+    text-align: center;
+	box-shadow: 0 0 5px #ddd;
+	box-sizing: border-box;
+    vertical-align: top;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+ul.rig li img {
+	max-width: 100%;
+	height: auto;
+	margin: 0 0 3px;
+}
+ul.rig li h3 {
+	margin: 0 0 0px;
+}
+ul.rig li p {
+	font-size: .9em;
+	line-height: 1.5em;
+	color: #999;
+}
+ul.rig.columns-3 li {
+    width: 32%; /* this value + 2.5 should = 33% */
+}
+
+.grid-item-thum {
+    background-color: #28292a;
+    width: 100%;
+    border-radius: 2px;
+    margin: 5px;
+}
+
+/* Music Options */
+    ul.rig.columns-5 li {
+        width: 23.85%; /* this value + 2.5 should = 33% */
+        opacity: 0.8;
+    }
+
+
+/* Store */
+ul.rig.columns-2 li {
+    width: 48.75%; /* this value + 2.5 should = 33% */
+    opacity: 0.8;
+}
+
+
+/* Android Tablet */
+@media only screen and (min-device-width : 800px) and (max-device-width : 1280px) {
+    .classify-item {
+        font-size: 16px;
+    }
+    
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+        margin-left: -6%;
+    }
+    ul.rig.columns-3 li {
+        width: 23.85%; /* this value + 2.5 should = 33% */
+    }
+}
+@media only screen and (min-device-width : 600px) and (max-device-width : 1024px) {
+    .classify-item {
+        font-size: 16px;
+    }
+    
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+        margin-left: -6%;
+    }
+    ul.rig.columns-3 li {
+        width: 23.85%; /* this value + 2.5 should = 33% */
+    }
+}
+
+/* iPad */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .classify-item {
+        font-size: 16px;
+    }
+    
+    ul.rig {
+        list-style: none;
+        font-size: 0px;
+    	margin-left: -4.5%;
+    }
+    ul.rig.columns-3 li {
+        width: 23.85%; /* this value + 2.5 should = 33% */
+    }
+    
+}
+
+
+/* Used in Feeds */
+.plan-list {
+  background-image: none !important;
+}
+
+.plan {
+  line-height: 1;
+  padding: 0;
+}
+
+.plan-left {
+  text-align: right;
+  padding: 10px;
+}
+
+.plan-center {
+  background-color: #3399ff;
+  opacity: 0.5;
+}
+
+.plan-right {
+  padding: 10px 40px 10px 10px;
+}
+
+.plan-date {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.plan-duration {
+  font-size: 11px;
+  opacity: 0.4;
+}
+
+.plan-name {
+  font-size: 15px;
+  margin-bottom: 4px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.plan-info {
+  opacity: 0.7;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+
+/* Used in Connect */
+.connect-list {
+  background-image: none !important;
+}
+
+.connect {
+  line-height: 1;
+  padding: 0;
+}
+
+.connect-left {
+  text-align: right;
+  padding: 10px;
+}
+
+.connect-center {
+  background-color: #3399ff;
+  opacity: 0.5;
+}
+
+.connect-right {
+  padding: 10px 40px 10px 10px;
+}
+
+.connect-date {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.connect-thum {
+    background-color: #28292a;
+    width: 55px;
+    height: 55px;
+    margin: 3px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+
+.connect-duration {
+  font-size: 11px;
+  opacity: 0.4;
+}
+
+.connect-name {
+  font-size: 14px;
+  margin-bottom: 4px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.connect-info {
+  opacity: 0.7;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 5px;
+  color: #ddd;
+}
+
+.connect-date {
+  opacity: 0.7;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 2px;
+  color: #ddd;
+}

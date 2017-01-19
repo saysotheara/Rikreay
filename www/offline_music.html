@@ -1,0 +1,88 @@
+
+<ons-modal var="modal">
+    <i class="fa fa-spinner fa-spin fa-pulse" style="font-size: 28px;"></i>
+    <br><br>
+    Please wait ...
+</ons-modal>
+
+    <ons-page id="radio-page" ng-controller="OfflineController_music" style="background: #28292a">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="center">
+                ចម្រៀងបានទាញយក
+            </div>
+            <div class="left">
+                <ons-toolbar-button ng-click="onProfileClick();">
+                    <ons-icon icon="navicon" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="right">
+                <ons-toolbar-button ng-click="onPlaylistClick();" disabled ng-if="!showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+                <ons-toolbar-button ng-click="onPlaylistClick();" ng-if="showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+        
+        <div class="info" ng-if="showNoItem">
+            {{ messageNoMusic }}
+        </div>
+        <ons-list class="ons-list" ng-if="musics.length > 0">
+            <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics | limitTo: limitToMusic">
+                <ons-row>
+                    <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                        <div class="music-num">
+                            <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                            <span ng-show="{{item.id}}===musicNow.id">
+                                <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                            </span>
+                        </div>
+                    </ons-col>
+                    <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                        <img ng-src="images/offline.jpg" class="list-music-thum"></img>
+                    </ons-col>
+                    <ons-col ng-click="onMusicSelect(item, $index);">
+                        <div class="music-title">
+                            {{ item.title }}
+                        </div>
+                        <div class="music-desc">
+                            {{ item.artist }}
+                        </div>
+                        <div class="music-album">
+                            <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                            <span style="float: right;">
+                                <i class="fa fa-cloud-download live-color" style="font-size: 11px;"></i> {{ formatFileSize(item.size) }}
+                            </span>
+                        </div>
+                    </ons-col>
+                    <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                        <i class="fa fa-navicon live-color button-action-icon"></i>
+                    </ons-button>
+                </ons-row>
+            </ons-list-item>
+            <ons-list-item modifier="tappable" class="list-music" ng-click="onLoadMusicClick();" ng-if="musics.length > 0 && musics.length > limitToMusic">
+                <ons-row>
+                    <ons-col width="25px">
+                        <div class="music-num">
+                            {{ limitToMusic + 1 }}
+                        </div>
+                    </ons-col>
+                    <ons-col width="75px">
+                        <img ng-src="images/more.jpg" class="list-music-thum" style="opacity: 0.2;" />
+                    </ons-col>
+                    <ons-col>
+                        <div class="music-title">
+                            Load more music...
+                        </div>
+                        <div class="music-desc">
+                            Click here to see more music...
+                        </div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+        
+    </ons-page>
+    

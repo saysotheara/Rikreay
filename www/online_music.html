@@ -1,0 +1,205 @@
+
+<ons-modal var="modal">
+    <i class="fa fa-spinner fa-spin fa-pulse" style="font-size: 28px;"></i>
+    <br><br>
+    Please wait ...
+</ons-modal>
+
+    <ons-page id="music-page" ng-controller="MusicController" style="background: #28292a">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="center">
+                <div class="navigation-bar toolbar-color">
+                    <div class="navigation-bar__center">
+                        <div class="button-bar segment">
+                            <div class="button-bar__item" ng-click="onTopClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">Top</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onFetureClick()">
+                                <input type="radio" name="navi-segment-a" checked>
+                                <div class="button-bar__button">Feat.</div>
+                            </div>
+                            <div class="button-bar__item" ng-click="onNewClick()">
+                                <input type="radio" name="navi-segment-a">
+                                <div class="button-bar__button">New</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left">
+                <ons-toolbar-button ng-click="onProfileClick();">
+                    <ons-icon icon="navicon" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="right">
+                <ons-toolbar-button ng-click="onPlaylistClick();" disabled ng-if="!showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+                <ons-toolbar-button ng-click="onPlaylistClick();" ng-if="showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+
+        <div class="wrapper" style="margin-bottom: 5px;">
+            <div class="container">
+                <ul class="grid-na rig columns-5">
+                    <li ng-repeat="item in musicOptions">
+                        <ons-button modifier="quiet" ng-click="onOptionSelect(item, $index);" style="margin: -3px 0 -10px 0;">
+                            <span ng-if="$index !== 3">
+                                <ons-icon icon="{{item.icon}}" class="live-color icon-action"></ons-icon><br />
+                            </span>
+                            <span ng-if="$index === 3">
+                                <span ng-if="!isDownloading">
+                                    <ons-icon icon="{{item.icon}}" class="live-color icon-action"></ons-icon><br />
+                                </span>
+                                <span ng-if="isDownloading">
+                                    <img src="images/loading.gif" style="width: 28px; margin-bottom: -8px;" /><br />
+                                </span>
+                            </span>
+                            <span class="classify-item" style="width: 100%; text-align: center;">{{item.desc}}</span>
+                        </ons-button>
+                	</li>
+        		</ul>
+            </div>
+        </div>
+        <div ng-show="choice===1">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics_top.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics_top">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        <div ng-show="choice===2">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics_feature.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics_feature">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        <div ng-show="choice===3">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <div class="info" ng-if="!isLoading && showNoItem">
+                {{ messageNoMusic }}
+            </div>
+            <ons-list class="ons-list" ng-if="!isLoading && musics_new.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics_new">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+
+    </ons-page>
+
+

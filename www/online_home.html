@@ -1,0 +1,248 @@
+
+<ons-modal var="modal">
+    <i class="fa fa-spinner fa-spin fa-pulse" style="font-size: 28px;"></i>
+    <br><br>
+    Please wait ...
+</ons-modal>
+
+    <ons-page id="home-page" ng-controller="HomeController" style="background: #28292a;">
+        <ons-toolbar class="toolbar" fixed-style="">
+            <div class="center">
+                <div class="navigation-bar__center">
+                    <div class="button-bar segment">
+                        <div class="button-bar__item" ng-click="onDiscoverClick()">
+                            <input type="radio" name="navi-segment-a" checked>
+                            <div class="button-bar__button">Discover</div>
+                        </div>
+                        <div class="button-bar__item" ng-click="onForYouClick()">
+                            <input type="radio" name="navi-segment-a">
+                            <div class="button-bar__button">For You</div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left">
+                <ons-toolbar-button ng-click="onProfileClick();">
+                    <ons-icon icon="navicon" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="right">
+                <ons-toolbar-button ng-click="onPlaylistClick();" disabled ng-if="!showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+                <ons-toolbar-button ng-click="onPlaylistClick();" ng-if="showPlayer">
+                    <ons-icon icon="music" class="icon-color"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+                
+        <div class="wrapper" style="margin-bottom: 5px;" ng-if="isOnline">
+            <div class="container">
+                <ul class="grid-na rig columns-5">
+                    <li ng-repeat="item in musicOptions">
+                        <ons-button modifier="quiet" ng-click="onOptionSelect(item, $index);" style="margin: -3px 0 -10px 0;">
+                            <span ng-if="$index !== 3">
+                                <ons-icon icon="{{item.icon}}" class="live-color icon-action"></ons-icon><br />
+                            </span>
+                            <span ng-if="$index === 3">
+                                <span ng-if="!isDownloading">
+                                    <ons-icon icon="{{item.icon}}" class="live-color icon-action"></ons-icon><br />
+                                </span>
+                                <span ng-if="isDownloading">
+                                    <img src="images/loading.gif" style="width: 28px; margin-bottom: -8px;" /><br />
+                                </span>
+                            </span>
+                            <span class="classify-item" style="width: 100%; text-align: center;">{{item.desc}}</span>
+                        </ons-button>
+            		</li>
+        		</ul>
+            </div>
+        </div>
+
+        <div class="info" style="color: #FF5E3A;" ng-if="!isOnline">
+            No Internet connection found.
+        </div>
+
+        <div ng-if="isOnline && choice==='discover'">
+            <div class="wrapper" style="margin: -5px 0px 5px 0px;" ng-if="cover_albums.length>0">
+                <div class="container">
+                    <ul class="grid-na rig columns-2">
+                        <li ng-repeat="item in cover_albums" ng-click="onNewAlbumSelect(item);">
+                            <img src="{{musicPath}}/All-Cover/cover_{{item.thumb}}" /><br />
+                            <span class="classify-item">{{ item.album }}</span>
+                        </li>
+                	</ul>
+                </div>
+            </div>
+        
+            <div class="section-header" style="margin-top: 15px;" ng-if="feature_artists.length>0">
+                Featured Artists - Khmer Music
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllArtistClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in feature_artists" ng-click="onArtistSelect(item);">
+                    <img ng-src="{{artistPath}}/feature_{{item.thumb}}" class="list-feature-artist"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <!-- Sponsor -->
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in sponsors | filter: { level: '1'}" ng-click="onSponsorSelect(item);">
+                    <img ng-src="{{sponsorPath}}/{{item.thumb}}" class="list-sponsor"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <div class="section-header" ng-if="new_albums.length > 0">
+                New Albums - Khmer Music
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllAlbumClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in new_albums" ng-click="onNewAlbumSelect(item);">
+                    <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <div class="section-header" ng-if="mvs_item.length > 0">
+                Music Videos - Khmer MV
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllMVClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in mvs_item = (mvs | filter: 'release')" ng-click="onNewMVSelect(item);">
+                    <img ng-src="{{mvPath}}/{{item.album}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <div class="section-header" ng-if="feature_albums.length > 0">
+                Featured Albums - Khmer Music
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllAlbumClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in feature_albums" ng-click="onNewAlbumSelect(item);">
+                    <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <!-- Sponsor -->
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in sponsors | filter: { level: '2'}" ng-click="onSponsorSelect(item);">
+                    <img ng-src="{{sponsorPath}}/{{item.thumb}}" class="list-sponsor"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <div class="section-header" ng-if="tv_items.length > 0">
+                Live - Khmer TV
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllTVClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item class="internal" ng-repeat="item in tv_items = (liveItems | filter:{type: 'tv'})" ng-click="onLiveItemSelect(item);">
+                    <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+            
+            <div class="section-header" ng-if="tv_items.length > 0">
+                Radio - Live & Daily
+                <ons-button modifier="quiet" class="see-all" ng-click="onSeeAllRadioClick();">
+                    See All <ons-icon icon="angle-right"></ons-icon>
+                </ons-button>
+            </div>
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item 
+                    class="internal" ng-repeat="item in liveItems | filter:{type: 'radio'}" ng-click="onLiveItemSelect(item);">
+                        <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list modifier="noborder" class="wrapper-album">
+                <ons-list-item 
+                    class="internal" ng-repeat="item in liveItems | filter:{type: 'archive'}" ng-click="onLiveItemSelect(item);">
+                        <img ng-src="{{thumbPath}}/{{item.thumb}}" class="list-new-album"></img>
+                </ons-list-item>
+            </ons-list>
+            
+            <!-- Sponsor -->
+            <ons-list modifier="noborder" class="wrapper-album" style="margin-bottom: -10px;">
+                <ons-list-item class="internal" ng-repeat="item in sponsors | filter: { level: '3'}" ng-click="onSponsorSelect(item);">
+                    <img ng-src="{{sponsorPath}}/{{item.thumb}}" class="list-sponsor"></img>
+                </ons-list-item>
+            </ons-list>
+            
+            <ons-list modifier="noborder" class="wrapper-album" style="margin-bottom: -10px;">
+                <ons-list-item class="internal" ng-repeat="item in sponsors | filter: { level: '4'}" ng-click="onSponsorSelect(item);">
+                    <img ng-src="{{sponsorPath}}/{{item.thumb}}" class="list-sponsor"></img>
+                </ons-list-item>
+            </ons-list>
+
+            <ons-list modifier="noborder" class="wrapper-album" style="margin-bottom: -10px;">
+                <ons-list-item class="internal" ng-repeat="item in sponsors | filter: { level: '5'}" ng-click="onSponsorSelect(item);">
+                    <img ng-src="{{sponsorPath}}/{{item.thumb}}" class="list-sponsor"></img>
+                </ons-list-item>
+            </ons-list>
+            
+        </div>
+        
+        <div ng-if="isOnline && choice==='for_you'">
+            <div class="info" ng-if="isLoading">
+                <img src="images/loading.gif" class="loading" />
+            </div>
+            <ons-list ng-if="!isLoading && showNoItem">
+                <ons-list-item>
+                    <div class="info">
+                        No Music For You.
+                    </div>
+                </ons-list-item>
+            </ons-list>
+            <ons-list class="ons-list" ng-if="!isLoading && musics_for_you.length > 0">
+                <ons-list-item modifier="tappable" class="list-music" ng-repeat="item in musics_for_you">
+                    <ons-row>
+                        <ons-col width="25px" ng-click="onMusicSelect(item, $index);">
+                            <div class="music-num">
+                                <span ng-show="{{item.id}}!==musicNow.id">{{ $index + 1 }}</span>
+                                <span ng-show="{{item.id}}===musicNow.id">
+                                    <span ng-show="!player.playing"><i class="fa fa-play play-color" style="font-size: 15px;"></i></span>
+                                    <span ng-show="player.playing"><img src="images/bars.gif" alt="" /></span>
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-col width="75px" ng-click="onMusicSelect(item, $index);">
+                            <img ng-src="{{musicPath}}/{{item.album}}/{{item.thumb}}" class="list-music-thum"></img>
+                        </ons-col>
+                        <ons-col ng-click="onMusicSelect(item, $index);">
+                            <div class="music-title">
+                                {{ item.title }}
+                            </div>
+                            <div class="music-desc">
+                                {{ item.artist }}
+                            </div>
+                            <div class="music-album">
+                                <i class="fa fa-qrcode live-color" style="font-size: 11px;"></i> {{ item.album }}
+                                <span style="float: right;">
+                                    <i class="fa fa-heart-o live-color" style="font-size: 11px;"></i> {{ formatNumber(item.liked) }}
+                                    &nbsp; <i class="fa fa-ellipsis-v live-color" style="font-size: 10px;"></i> &nbsp;
+                                    <i class="fa fa-headphones live-color" style="font-size: 11px;"></i> {{ formatNumber(item.view) }}
+                                </span>
+                            </div>
+                        </ons-col>
+                        <ons-button modifier="quiet" class="button-action" ng-click="onButtonClick(item, $index);">
+                            <i class="fa fa-navicon live-color button-action-icon"></i>
+                        </ons-button>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+    </ons-page>
+    
+    
+    
+    
+    

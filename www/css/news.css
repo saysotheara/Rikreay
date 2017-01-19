@@ -1,0 +1,222 @@
+/* This is a CSS file */
+
+.list-news {
+    padding: 5px;
+    height: 110px;
+    line-height: 1;
+    overflow: hidden;
+    background: #28292a;
+}
+.news-thum {
+    background-color: #28292a;
+    width: 105px;
+    height: 70px;
+    margin: 6px 5px;
+    border: 1px solid #fff;
+}
+.news-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.6;
+    max-height: 53px;
+    overflow: hidden;
+}
+.news-desc {    
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.7;
+    max-height: 49px;
+    overflow: hidden;
+}
+
+.news-detail-title {
+    margin: 12px;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.7;
+ }
+.news-detail-info {
+    margin: 15px 12px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.news-detail-content {
+    margin: 17px 12px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.8;
+}
+.news-detail-resource {
+    margin: 12px;
+}
+.news-detail-photo, .news-detail-video {
+    width: 100%;
+}
+
+.news-related-title {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* iPhone 5 & 5S */
+@media screen and (device-aspect-ratio: 40/71) {
+    .list-news {
+        padding: 3px;
+        height: 95px;
+    }
+    .news-thum {
+        width: 95px;
+        height: 70px;
+        margin: 8px 5px;
+    }
+    .news-title {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.6;
+        max-height: 40px;
+    }
+    .news-desc {    
+        font-size: 12px;
+        margin-top: 6px;
+        line-height: 1.6;
+        max-height: 40px;
+    }
+    
+    .news-detail-title {
+        margin: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+     }
+    .news-detail-info {
+        margin: 15px 13px;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+    .news-detail-content {
+        margin: 17px 12px;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+    .news-detail-resource {
+        margin: 12px;
+    }
+    .news-detail-photo, .news-detail-video {
+        width: 100%;
+    }
+    
+    .news-related-title {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+}
+
+/* iPhone 6 */
+@media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (device-width : 375px) and (device-height : 667px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) and (-webkit-device-pixel-ratio : 2) {
+    .list-news {
+        padding: 4px;
+        height: 100px;
+    }
+    .news-thum {
+        width: 113px;
+        height: 80px;
+        margin: 5px;
+    }
+    .news-title {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.6;
+        max-height: 43px;
+    }
+    .news-desc {    
+        font-size: 13px;
+        margin-top: 6px;
+        line-height: 1.6;
+        max-height: 42px;
+    }
+    
+    .news-detail-title {
+        margin: 12px;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.6;
+     }
+    .news-detail-info {
+        margin: 15px 13px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+    .news-detail-content {
+        margin: 17px 12px;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+    .news-detail-resource {
+        margin: 12px;
+    }
+    .news-detail-photo, .news-detail-video {
+        width: 100%;
+    }
+    
+    .news-related-title {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
+
+/* iPhone 6 Plus */
+@media only screen and (min-device-width : 414px) and (max-device-width : 736px) and (device-width : 414px) and (device-height : 736px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 3) and (-webkit-device-pixel-ratio : 3) { 
+    .list-news {
+        padding: 5px;
+        height: 110px;
+        
+    }
+    .news-thum {
+        width: 125px;
+        height: 85px;
+        margin: 6px 5px;
+    }
+    .news-title {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.6;
+        max-height: 53px;
+    }
+    .news-desc {
+        font-size: 14px;
+        line-height: 1.7;
+        max-height: 49px;
+    }
+    
+    .news-detail-title {
+        margin: 12px;
+        font-size: 19px;
+        font-weight: 500;
+        line-height: 1.7;
+     }
+    .news-detail-info {
+        margin: 15px 13px;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+    .news-detail-content {
+        margin: 17px 12px;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+    .news-detail-resource {
+        margin: 12px;
+    }
+    .news-detail-photo, .news-detail-video {
+        width: 100%;
+    }
+    .news-related-title {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
+
